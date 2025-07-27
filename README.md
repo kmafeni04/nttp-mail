@@ -45,3 +45,69 @@ assert(err == "", err)
 
 ## Reference
 
+### mail
+
+```lua
+local mail = @record{}
+```
+
+### mail.AuthType
+
+```lua
+local mail.AuthType = @enum{
+  null = -1,
+  plain,
+  login
+}
+```
+
+### mail.Conf
+
+```lua
+local mail.Conf = @record{
+  domain: string,
+  host: string,
+  port: uinteger,
+  auth_type: mail.AuthType,
+  starttls: boolean,
+  username: string,
+  password: string
+}
+```
+
+### mail.Mailer
+
+```lua
+local mail.Mailer = @record{
+  sock: integer,
+  conf: mail.Conf
+}
+```
+
+### mail.new
+
+```lua
+function mail.new(conf: mail.Conf): (mail.Mailer, string)
+```
+
+### mail.SendOpts
+
+```lua
+local mail.SendOpts = @record{
+  from: string,
+  to: sequence(string),
+  cc: sequence(string),
+  bcc: sequence(string),
+  content_type: string,
+  headers: sequence(string),
+  subject: string,
+  body: string,
+}
+```
+
+### mail.Mailer:send
+
+```lua
+function mail.Mailer:send(opts: mail.SendOpts): string
+```
+

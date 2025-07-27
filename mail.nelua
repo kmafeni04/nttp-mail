@@ -60,14 +60,22 @@ local function extract_address(s: string): string
   return s
 end
 
+--- ### mail
+---`
 local mail = @record{}
+---`
 
+--- ### mail.AuthType
+---`
 local mail.AuthType = @enum{
   null = -1,
   plain,
   login
 }
+---`
 
+--- ### mail.Conf
+---`
 local mail.Conf = @record{
   domain: string,
   host: string,
@@ -77,13 +85,20 @@ local mail.Conf = @record{
   username: string,
   password: string
 }
+---`
 
+--- ### mail.Mailer
+---`
 local mail.Mailer = @record{
   sock: integer,
   conf: mail.Conf
 }
+---`
 
+--- ### mail.new
+---`
 function mail.new(conf: mail.Conf): (mail.Mailer, string)
+---`
   conf.domain = conf.domain ~= "" and conf.domain or "localhost.localdomain"
   conf.host = conf.host ~= "" and conf.host or "localhost"
   conf.port = conf.port ~= 0 and conf.port or 25
@@ -118,6 +133,8 @@ function mail.new(conf: mail.Conf): (mail.Mailer, string)
   }, ""
 end
 
+--- ### mail.SendOpts
+---`
 local mail.SendOpts = @record{
   from: string,
   to: sequence(string),
@@ -128,8 +145,12 @@ local mail.SendOpts = @record{
   subject: string,
   body: string,
 }
+---`
 
+--- ### mail.Mailer:send
+---`
 function mail.Mailer:send(opts: mail.SendOpts): string
+---`
   if opts.from == "" then
     return "`from` cannot be an empty string"
   end
