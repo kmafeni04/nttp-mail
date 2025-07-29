@@ -7,13 +7,13 @@ require "C.stdio"
 require "io"
 require "os"
 
-require "openssl"
+require "openssl-bindings-nelua.openssl"
 
-require "thirdparty.socket"
-require "thirdparty.unistd"
-require "thirdparty.poll"
+require "nttp.thirdparty.socket"
+require "nttp.thirdparty.unistd"
+require "nttp.thirdparty.poll"
 
-local utils = require "libs.utils"
+local utils = require "nttp.libs.utils"
 
 ## local function mail_assert(ret, err)
   if #[ret]# ~= "" then
@@ -102,7 +102,7 @@ function mail.new(conf: mail.Conf): (mail.Mailer, string)
   conf.domain = conf.domain ~= "" and conf.domain or "localhost.localdomain"
   conf.host = conf.host ~= "" and conf.host or "localhost"
   conf.port = conf.port ~= 0 and conf.port or 25
-  
+
   local host = gethostbyname(conf.host)
   if host == "nilptr" then
     return {}, "gethostbyname error"
@@ -128,7 +128,7 @@ function mail.new(conf: mail.Conf): (mail.Mailer, string)
   receive_response(sock, nilptr)
 
   return {
-    sock = sock, 
+    sock = sock,
     conf = conf
   }, ""
 end

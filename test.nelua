@@ -1,6 +1,6 @@
 local mail = require ".mail"
 
-local dotenv, err = (require "dotenv").load(".env")
+local dotenv, err = (require "dotenv-nelua.dotenv").load(".env")
 assert(err == "")
 local username = dotenv:get("MAILER_USERNAME")
 

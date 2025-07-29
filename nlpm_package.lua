@@ -13,7 +13,7 @@ return {
     {
       name = "nttp",
       repo = "https://github.com/kmafeni04/nttp",
-      version = "#d8406960aca9b3ca683c5993e0b12d604f644baa",
+      version = "#7b03ae14fb011d93173e8e20c752fc2c1426d13c",
     },
     {
       name = "openssl-bindings-nelua",
@@ -23,7 +23,7 @@ return {
     {
       name = "dotenv-nelua",
       repo = "https://github.com/kmafeni04/dotenv-nelua",
-      version = "#c1d05bea418212197b9bb2a9fb7d9fe8ca50e342",
+      version = "#bae178f2f6929b5ef3404890df810326f4ff0baf",
     },
   },
   scripts = {
