@@ -104,14 +104,14 @@ function mail.new(conf: mail.Conf): (mail.Mailer, string)
   conf.port = conf.port ~= 0 and conf.port or 25
 
   local host = gethostbyname(conf.host)
-  if host == "nilptr" then
-    return {}, "gethostbyname error"
+  if host == nilptr then
+    return {}, "GETHOSTBYNAME: host is NULL"
   end
 
   local sock = socket(AF_INET, SOCK_STREAM, 0)
   if (sock < 0) then
     local err_msg = C.strerror(C.errno)
-    return {}, err_msg
+    return {}, "SOCKET: " .. err_msg
   end
 
   local server: sockaddr_in
@@ -122,7 +122,7 @@ function mail.new(conf: mail.Conf): (mail.Mailer, string)
   if connect(sock, (@*sockaddr)(&server), #sockaddr_in) < 0 then
     local err_msg = C.strerror(C.errno)
     close(sock)
-    return {}, err_msg
+    return {}, "CONNECT: " .. err_msg
   end
 
   receive_response(sock, nilptr)
@@ -191,7 +191,7 @@ function mail.Mailer:send(opts: mail.SendOpts): string
     if ssl_err_enum ~= SSL_ERROR_NONE then
       local ssl_err_code = ERR_get_error()
       local ssl_err_string = (@string)(ERR_error_string(ssl_err_code, nilptr))
-      if ssl_err_string ~= "" then return ssl_err_string end
+      if ssl_err_string ~= "" then return "SSL: " .. ssl_err_string end
     end
     mail_assert!(send_command(self.sock, ssl, helo_msg))
     mail_assert!(receive_response(self.sock, ssl))

@@ -13,7 +13,7 @@ return {
     {
       name = "nttp",
       repo = "https://github.com/kmafeni04/nttp",
-      version = "#13752184c84de6be2277cd0ccb2af1581f39f84a",
+      version = "#73d18785fb953b4e61b74eee4e99af831de7d453",
     },
     {
       name = "openssl-bindings-nelua",
