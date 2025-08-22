@@ -13,6 +13,12 @@ require "nttp.thirdparty.socket"
 require "nttp.thirdparty.unistd"
 require "nttp.thirdparty.poll"
 
+## cinclude '<signal.h>'
+global __sighandler_t: type <cimport,nodecl> = @function(cint): void
+global function signal(sig: cint, handler: __sighandler_t): __sighandler_t <cimport,nodecl> end
+global SIG_IGN: function(cint) <cimport, nodecl>
+global SIGPIPE: cint <comptime> = 13
+
 local utils = require "nttp.libs.utils"
 
 ## local function mail_assert(ret, err)
@@ -23,9 +29,10 @@ local utils = require "nttp.libs.utils"
 
 local function send_data(sock: integer, ssl: *SSL, data: string)
   if ssl then
+    signal(SIGPIPE, SIG_IGN)
     if SSL_write(ssl, data.data, #data) < 0 then return "SSL_write error" end
   else
-    if send(sock, data.data, #data, 0) < 0 then return "send error" end
+    if send(sock, data.data, #data, MSG_NOSIGNAL) < 0 then return "send error" end
   end
   return ""
 end
